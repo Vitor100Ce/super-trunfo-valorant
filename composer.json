@@ -1,0 +1,17 @@
+{
+    "name": "vitor/trunfo-valorant",
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vitor Ramos"
+        }
+    ],
+    "require": {
+        "pecee/simple-router": "^5.4",
+        "twig/twig": "^3.20"
+    }
+}
