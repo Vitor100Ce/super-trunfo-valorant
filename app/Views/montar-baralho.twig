@@ -1,0 +1,30 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+                <h1 class='mt-4'>Monte seu baralho</h1>
+                <p class='bold'>Escolha 10 cartas - Sendo 7 agentes e 3 itens</p>
+
+                {% for carta in cartas %}
+
+                    <div class="card">
+                        <img src="{{carta.img}}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{carta.agente}}</h5>
+                            <ul class="list-group text-start">
+                                <li class="list-group-item">Dano: {{carta.dano}}</li>
+                                <li class="list-group-item">Velocidade: {{carta.velocidade}}</li>
+                                <li class="list-group-item">Radianita: {{carta.tecnologia}}</li>
+                                <li class="list-group-item">Velocidade: {{carta.radianita}}</li>
+                            </ul>
+                        </div> {# card-body #}
+                    </div> {# card #}
+
+                {% endfor %}
+        </div> {# row #}
+            
+    </div> {# container #} 
+
+{% endblock %}
