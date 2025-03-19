@@ -3,12 +3,14 @@
 namespace app\Controllers;
 
 use app\Core\View;
+use app\Models\EstruturaDbModel;
 
 class HomeController
+
 {
     public function index()
     {
-        // Renderiza a view home.twig e passa um dado
+        // (new EstruturaDbModel)->setTodasCartas();
         return View::render('home.twig', ['nome' => 'Vitor']);
     }
 }
