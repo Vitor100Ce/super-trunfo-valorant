@@ -4,10 +4,13 @@ use Pecee\SimpleRouter\SimpleRouter;
 use app\Controllers\HomeController;
 use app\Controllers\JogarSemContaController;
 use app\Controllers\BaralhoController;
+use app\Controllers\PartidaController;
 
 SimpleRouter::get('/', [HomeController::class, 'index']);
 SimpleRouter::get('/jogar-sem-conta', [JogarSemContaController::class, 'jogarSemConta']);
 SimpleRouter::get('/get-cartas', [BaralhoController::class, 'getCartas']);
-SimpleRouter::post('/montar-baralho-sem-conta', [BaralhoController::class, 'montarBaralhoSemConta']);
+SimpleRouter::post('/montar-baralho-sem-conta', [BaralhoController::class, 'setBaralhoSemConta']);
+SimpleRouter::get('/partida', [PartidaController::class, 'iniciarPartida']);
+
 
 
