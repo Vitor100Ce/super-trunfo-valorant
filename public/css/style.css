@@ -24,6 +24,15 @@ body::before {
     z-index: -1;
 }
 
+.bold{
+    font-weight: bold;
+}
+
+.vermelho{
+    color: red;
+}
+
+
 /* Card */
 
 .card{
@@ -49,6 +58,11 @@ body::before {
 .card-body{
     text-align: left;
 
+}
+
+.selected-card {
+    border: 2px solid red; /* Destaca o card */
+    box-shadow: 0 8px 16px rgba(252, 3, 3, 0.5);
 }
 
 
