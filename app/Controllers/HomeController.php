@@ -10,7 +10,10 @@ class HomeController
 {
     public function index()
     {
-        // (new EstruturaDbModel)->setTodasCartas();
+        if(!file_exists(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'super-trunfo-valorant.db')){
+            (new EstruturaDbModel)->setTodasCartas();
+        }
+
         return View::render('home.twig', ['nome' => 'Vitor']);
     }
 }
