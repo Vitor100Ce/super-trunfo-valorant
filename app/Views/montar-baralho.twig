@@ -9,9 +9,10 @@
                 <button class="btn btn-danger mt-4 btn-iniciar-partida" disabled>Iniciar partida</button>
                 <h1 class='mt-4'>Monte seu baralho</h1>
                 <p>Escolha <span class="bold">10 cartas</span> - Sendo <span class="bold">7 agentes</span> e <span class="bold">3 itens</span></p>
+                <p>Agentes selecionados: <span>   </p>
+                <p>Itens selecionados: <span>   </p>
                 <p>Após montar o baralho, clique em <span class="bold">iniciar partida</span>.</p>
                 
-
                 {% for carta in cartas %}
 
                     <div class="card">
@@ -57,27 +58,39 @@
                         }
                     }
 
-                    if(selectedCards.length == 10){
-                        $(".btn").removeAttr("disabled");
-                    }  
+                    
+                    if (selectedCards.length === 10) {
+                        $(".btn-iniciar-partida").removeAttr("disabled");
+                    } else {
+                        $(".btn-iniciar-partida").attr("disabled");
+                    } 
 
                 });
 
-                if(selectedCards.length == 10){
-
-                     $(".btn-iniciar-partida").on("click", function(){
-
-                    $.ajax({
-                        url: "/montar-baralho-sem-conta",
+                $(".btn-iniciar-partida").on("click", function () {
+                    if (true) {
+                        console.log("Montar baralho sem conta");
+                        $.ajax({
+                            url: "/montar-baralho-sem-conta",
                             type: "POST",
-                            data: {selectedCards: selectedCards},
-                            success: function(response){
-                                console.log(response);
+                            data: { selectedCards: selectedCards }, 
+                            success: function (response) {
+
+                                if(response){
+
+                                    window.location.href = "/partida";
+
+                                } else{
+                                    alert("Erro ao montar baralho");
+                                }
                             }
-                        })
-                    })
-                }
-         
+                        });
+                    } else {
+                        alert("Selecione exatamente 10 cartas antes de iniciar a partida.");
+                    }
+                });
+           
+            
             });
 
     </script>
