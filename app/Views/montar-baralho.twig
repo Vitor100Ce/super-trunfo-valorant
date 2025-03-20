@@ -2,10 +2,15 @@
 
 {% block content %}
 
-    <div class="container">
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    
         <div class="row">
+
+                <button class="btn btn-danger mt-4 btn-iniciar-partida" disabled>Iniciar partida</button>
                 <h1 class='mt-4'>Monte seu baralho</h1>
-                <p class='bold'>Escolha 10 cartas - Sendo 7 agentes e 3 itens</p>
+                <p>Escolha <span class="bold">10 cartas</span> - Sendo <span class="bold">7 agentes</span> e <span class="bold">3 itens</span></p>
+                <p>Após montar o baralho, clique em <span class="bold">iniciar partida</span>.</p>
+                
 
                 {% for carta in cartas %}
 
@@ -14,6 +19,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{carta.agente}}</h5>
                             <ul class="list-group text-start">
+                                <input type="hidden" name="idCard" id="idCard" value="{{carta.id}}"> 
                                 <li class="list-group-item">Dano: {{carta.dano}}</li>
                                 <li class="list-group-item">Velocidade: {{carta.velocidade}}</li>
                                 <li class="list-group-item">Radianita: {{carta.tecnologia}}</li>
@@ -27,4 +33,53 @@
             
     </div> {# container #} 
 
+    <script> 
+
+           $(document).ready(function () {
+            
+                let selectedCards = []; // Array para armazenar os IDs selecionados
+
+                $(".card").on("click", function () {
+
+                    let cardId = $(this).find("input[id='idCard']").val(); // Obtém o ID do card
+
+                    if (selectedCards.includes(cardId)) {
+                        // Se o ID já estiver na lista, remove
+                        selectedCards = selectedCards.filter(id => id !== cardId);
+                        $(this).removeClass("selected-card"); // Remove a classe de destaque
+                    } else {
+                        // Se ainda não estiver, adiciona (até o limite de 10)
+                        if (selectedCards.length < 10) {
+                            selectedCards.push(cardId);
+                            $(this).addClass("selected-card"); // Adiciona uma classe para destacar
+                        } else {
+                            alert("Você já selecionou 10 cartas!");
+                        }
+                    }
+
+                    if(selectedCards.length == 10){
+                        $(".btn").removeAttr("disabled");
+                    }  
+
+                });
+
+                if(selectedCards.length == 10){
+
+                     $(".btn-iniciar-partida").on("click", function(){
+
+                    $.ajax({
+                        url: "/montar-baralho-sem-conta",
+                            type: "POST",
+                            data: {selectedCards: selectedCards},
+                            success: function(response){
+                                console.log(response);
+                            }
+                        })
+                    })
+                }
+         
+            });
+
+    </script>
+    
 {% endblock %}
