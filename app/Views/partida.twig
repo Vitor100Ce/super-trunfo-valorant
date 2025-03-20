@@ -1,0 +1,30 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    
+        <div class="row">
+                
+                {% for carta in baralho|slice(0, 3) %}
+
+                    <div class="card">
+                        <img src="{{carta.img}}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{carta.agente}}</h5>
+                            <ul class="list-group text-start">
+                                <input type="hidden" name="idCard" id="idCard" value="{{carta.id}}"> 
+                                <li class="list-group-item">Dano: {{carta.dano}}</li>
+                                <li class="list-group-item">Velocidade: {{carta.velocidade}}</li>
+                                <li class="list-group-item">Radianita: {{carta.tecnologia}}</li>
+                                <li class="list-group-item">Velocidade: {{carta.radianita}}</li>
+                            </ul>
+                        </div> {# card-body #}
+                    </div> {# card #}
+
+                {% endfor %}
+        </div> {# row #}
+            
+    </div> {# container #} 
+    
+{% endblock %}
