@@ -66,3 +66,11 @@ body::before {
 }
 
 
+/* Partida */
+
+.selected-card-duelo {
+    transform: translateY(-50px); 
+    transition: all 0.3s ease-in-out;
+}
+
+

@@ -20,7 +20,9 @@ class BaralhoController {
 
             session_start();
 
-            unset($_SESSION['baralho']);
+            unset($_SESSION['baralho_jogador']);
+            unset($_SESSION['baralho_adversario']);
+
 
             if(!isset($_POST['selectedCards'])){
                 throw new Exception('Nenhuma carta foi selecionada');
@@ -28,9 +30,11 @@ class BaralhoController {
 
             $idCartas = $_POST['selectedCards'] ?? [];
 
-            $baralho = (new BaralhoModel)->getBaralho($idCartas);
+            $baralhoJogador = (new BaralhoModel)->getBaralhoJogador($idCartas);
+            $baralhoAdversario = (new BaralhoModel)->getBaralhoAdversario();
 
-            $_SESSION['baralho'] = $baralho;
+            $_SESSION['baralho_jogador'] = $baralhoJogador;
+            $_SESSION['baralho_adversario'] = $baralhoJogador;
 
             return true;
 

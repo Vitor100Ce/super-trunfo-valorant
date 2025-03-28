@@ -21,7 +21,7 @@ class BaralhoModel extends EstruturaDbModel
 
     }
 
-    public function getBaralho($idCartas){
+    public function getBaralhoJogador($idCartas){
 
         $result = $this->conexaoDb()->query("SELECT * FROM cartas_agentes WHERE id IN (".implode(',', $idCartas).")");
 
@@ -32,5 +32,19 @@ class BaralhoModel extends EstruturaDbModel
         }
 
         return $baralho;
+    }
+
+    public function getBaralhoAdversario(){
+
+        $result = $this->conexaoDb()->query("SELECT * FROM cartas_agentes ORDER BY RANDOM() LIMIT 10");
+
+        $baralho = [];
+
+        while($row = $result->fetchArray(SQLITE3_ASSOC)){
+            $baralho[] = $row;
+        }
+
+        return $baralho;
+
     }
 }

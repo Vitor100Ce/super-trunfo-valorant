@@ -11,6 +11,13 @@ SimpleRouter::get('/jogar-sem-conta', [JogarSemContaController::class, 'jogarSem
 SimpleRouter::get('/get-cartas', [BaralhoController::class, 'getCartas']);
 SimpleRouter::post('/montar-baralho-sem-conta', [BaralhoController::class, 'setBaralhoSemConta']);
 SimpleRouter::get('/partida', [PartidaController::class, 'iniciarPartida']);
+SimpleRouter::get('/get-carta-e-atributo-adversario', [PartidaController::class, 'getCartaEAtributoAdversario']);
+SimpleRouter::get('/jogador-vs-adversario', [PartidaController::class, 'getJogadorVsAdversario']);
+
+
+
+
+
 
 
 

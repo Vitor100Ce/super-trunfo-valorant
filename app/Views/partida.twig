@@ -2,22 +2,36 @@
 
 {% block content %}
 
+    <div class="card pt-2 pl-5 pr-5 pb-2" id="placa-jogador">
+        <h5>Placar</h5>
+        <p>Jogador: </p>
+        <p>Adversário: </p>
+    </div>
+
+    <div class="container d-flex justify-content-center align-items-center">
+
+        <div class="row">
+            <button class="btn-jogar">Jogar</button>
+            <div id="resultado"></div>
+        </div>
+    </div>
+
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
-    
+
         <div class="row">
                 
-                {% for carta in baralho|slice(0, 3) %}
+                {% for carta in baralhoJogador|slice(0, 3) %}
 
                     <div class="card">
                         <img src="{{carta.img}}" class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h5 class="card-title">{{carta.agente}}</h5>
+                            <h5 class="card-title agente">{{carta.agente}}</h5>
                             <ul class="list-group text-start">
-                                <input type="hidden" name="idCard" id="idCard" value="{{carta.id}}"> 
-                                <li class="list-group-item">Dano: {{carta.dano}}</li>
-                                <li class="list-group-item">Velocidade: {{carta.velocidade}}</li>
-                                <li class="list-group-item">Radianita: {{carta.tecnologia}}</li>
-                                <li class="list-group-item">Velocidade: {{carta.radianita}}</li>
+                                <input type="hidden" name="idCard" class="idCard" value="{{carta.id}}"> 
+                                <li class="list-group-item dano">Dano: {{carta.dano}}</li>
+                                <li class="list-group-item velocidade">Velocidade: {{carta.velocidade}}</li>
+                                <li class="list-group-item tecnologia">Tecnologia: {{carta.tecnologia}}</li>
+                                <li class="list-group-item radianita">Velocidade: {{carta.radianita}}</li>
                             </ul>
                         </div> {# card-body #}
                     </div> {# card #}
@@ -26,5 +40,84 @@
         </div> {# row #}
             
     </div> {# container #} 
+
+    <script>
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const cards = document.querySelectorAll(".card");
+
+                cards.forEach(card => {
+                    card.addEventListener("click", function () {
+                        // Se o card já está selecionado, remove a classe e sai
+                        if (this.classList.contains("selected-card-duelo")) {
+                            this.classList.remove("selected-card-duelo");
+                            return;
+                        }
+
+                        cards.forEach(c => c.classList.remove("selected-card-duelo"));
+
+                        this.classList.add("selected-card-duelo");
+
+                        const idCard = this.querySelector(".idCard").value;
+                        const agente = this.querySelector(".agente").textContent;
+
+                    
+                        const resposta = confirm(`Deseja selecionar o agente ${agente}?`);
+
+                        if (resposta) {
+                            fetch(`/jogador-vs-adversario?idCard=${idCard}`)
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Erro na requisição');
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    console.log(data);
+                                    alert(data.mensagem)
+                                    document.getElementById("placa-jogador").innerHTML = `
+                                                    <h5>Placar</h5>
+                                                    <p>Jogador: ${data.placar['jogador']}</p>
+                                                    <p>Adversário: ${data.placar['adversario']}</p>
+                                                `;
+                                })
+                                .catch(error => {
+                                    console.error('Erro ao buscar dados:', error);
+                                });
+                        } else {
+                            console.log('Não selecionou o agente', agente);
+                        }
+
+                    });
+                });
+            });
+
+            document.addEventListener("DOMContentLoaded", function() {
+                const btnJogar = document.querySelector(".btn-jogar"); // Seleciona o único botão com a classe btn-jogar
+
+                btnJogar.addEventListener('click', function() {
+                    console.log('Apertou');
+
+                    fetch('/get-carta-e-atributo-adversario') // Realiza a requisição AJAX
+                        .then(response => {
+                            // Verifica se a resposta é bem-sucedida
+                            if (!response.ok) {
+                                throw new Error('Erro na requisição');
+                            }
+                            return response.json(); // Converte a resposta para JSON
+                        })
+                        .then(data => {
+                            document.getElementById("resultado").innerHTML = `
+                                                    <h5>O oponente selecionou o atributo:</h5>
+                                                    <p class="atributo-adversario"><strong>${data.atributoSorteado}</strong></p>
+                                                `;
+                        })
+                        .catch(error => {
+                            console.error('Erro na requisição:', error);
+                        });
+                });
+            });
+        
+    </script>  
     
 {% endblock %}
